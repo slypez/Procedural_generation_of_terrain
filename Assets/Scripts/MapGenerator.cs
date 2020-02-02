@@ -5,7 +5,7 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     [Header("Map parameters")]
-    [SerializeField] private Noise.noiseAlgorithm NoiseAlgorithm;
+    public Noise.noiseAlgorithm NoiseAlgorithm;
     [SerializeField] private int mapWidth;
     [SerializeField] private int mapHeight;
     [SerializeField] private float noiseScale;
