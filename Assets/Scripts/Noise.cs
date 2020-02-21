@@ -6,9 +6,20 @@ public static class Noise
 {
     public enum noiseAlgorithm { DIAMOND, SIMPLEX };
 
-    public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, float scale, int octaves, float persistance, float lacunarity, noiseAlgorithm chosenAlgorithm)
+    public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistance, float lacunarity, Vector2 offset, noiseAlgorithm chosenAlgorithm)
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
+        System.Random randomNr = new System.Random(seed);
+        Vector2[] octaveOffsets = new Vector2[octaves];
+
+        for (int i = 0; i < octaves; i++)
+        {
+            float offsetX = randomNr.Next(-100000, 100000) + offset.x;
+            float offsetY = randomNr.Next(-100000, 100000) + offset.y;
+
+            octaveOffsets[i] = new Vector2(offsetX, offsetY);
+        }
+
 
         if(scale <= 0)
         {
@@ -17,6 +28,9 @@ public static class Noise
 
         float maxNoiseHeight = float.MinValue;
         float minNoiseHeight = float.MaxValue;
+
+        float halfWidth = mapWidth / 2f;
+        float halfHeight = mapHeight / 2f;
 
         for (int y = 0; y < mapHeight; y++)
         {
@@ -27,8 +41,8 @@ public static class Noise
                 float noiseHeight = 0;
                 for (int i = 0; i < octaves; i++)
                 {
-                    float xCoord = x / scale * frequency;
-                    float yCoord = y / scale * frequency;
+                    float xCoord = (x - halfWidth) / scale * frequency + octaveOffsets[i].x;
+                    float yCoord = (y - halfHeight) / scale * frequency + octaveOffsets[i].y;
 
                     float noiseValue = Mathf.PerlinNoise(xCoord, yCoord) * 2 - 1; // Most important line, here we set value and give algorithm. \/
 
