@@ -7,27 +7,34 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private enum DrawMode {NoiseMap, ColorMap, Mesh};
     [Header("General")]
     [SerializeField] private DrawMode drawMode;
-    [Header("Map parameters")]
     public Noise.noiseAlgorithm NoiseAlgorithm;
-
-    [SerializeField] private int mapWidth;
-    [SerializeField] private int mapHeight;
-    [SerializeField] private float noiseScale;
-
+    [SerializeField] private int seed;
+    public bool autoUpdate;
+    [Header("Noise")]
     [SerializeField] private int octaves;
     [Range(0f, 1f)] [SerializeField] private float persistance;
     [SerializeField] private float lacunarity;
-
-    [SerializeField] private int seed;
-    [SerializeField] private Vector2 offset;
-
-    public bool autoUpdate;
+    [SerializeField] private float noiseScale;
+    [Header("Map")]
+    [SerializeField] private int mapWidth;
+    [SerializeField] private int mapHeight;
+    [SerializeField] private Vector2 mapOffset;
+    [Header("Mesh")]
+    [SerializeField] private float heightMultiplier;
+    [Header("GUI-images")]
+    [SerializeField] private UnityEngine.UI.RawImage noiseTexture;
+    [SerializeField] private UnityEngine.UI.RawImage colorTexture;
+    [Header("Regions")]
     [SerializeField] private TerrainType[] terrainRegions;
+
+    //Full hidden variables 
+    private float[,] noiseMap;
+    private Color[] colorMap;
 
     public void GenerateMap()
     {
-        float[,] noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, seed, noiseScale, octaves, persistance, lacunarity, offset, NoiseAlgorithm);
-        Color[] colorMap = new Color[mapWidth * mapHeight];
+        noiseMap = Noise.GenerateNoiseMap(mapWidth, mapHeight, seed, noiseScale, octaves, persistance, lacunarity, mapOffset, NoiseAlgorithm);
+        colorMap = new Color[mapWidth * mapHeight];
 
         for (int y = 0; y < mapHeight; y++)
         {
@@ -36,7 +43,7 @@ public class MapGenerator : MonoBehaviour
                 float currentHeight = noiseMap[x, y];
                 for (int i = 0; i < terrainRegions.Length; i++)
                 {
-                    if(currentHeight <= terrainRegions[i].height)
+                    if(currentHeight <= terrainRegions[i].maxHeight)
                     {
                         colorMap[y * mapWidth + x] = terrainRegions[i].color;
                         break;
@@ -55,13 +62,28 @@ public class MapGenerator : MonoBehaviour
         }
         else if(drawMode == DrawMode.Mesh)
         {
-            mapDrawer.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap), TextureGenerator.TextureFromColorMap(colorMap, mapWidth, mapHeight));
+            mapDrawer.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap, heightMultiplier), TextureGenerator.TextureFromColorMap(colorMap, mapWidth, mapHeight));
         }
     }
 
     private void OnValidate()
     {
-        if(mapWidth < 1)
+        //Set raw image as new texture
+        if (drawMode == DrawMode.NoiseMap)
+        {
+            UpdateGUITextures(true, false);
+        }
+        else if (drawMode == DrawMode.ColorMap)
+        {
+            UpdateGUITextures(false, true);
+        }
+        else if (drawMode == DrawMode.Mesh)
+        {
+            UpdateGUITextures(true, true);
+        }
+
+        //Clamp inspector-values
+        if (mapWidth < 1)
         {
             mapWidth = 1;
         }
@@ -78,12 +100,35 @@ public class MapGenerator : MonoBehaviour
             octaves = 0;
         }
     }
+    
+    private void UpdateGUITextures(bool showNoiseTexture, bool showColorTexture)
+    {
+        if(showNoiseTexture)
+        {
+            noiseTexture.gameObject.SetActive(true);
+            noiseTexture.texture = TextureGenerator.TextureFromHeightMap(noiseMap);
+        }
+        else if(!showNoiseTexture)
+        {
+            noiseTexture.gameObject.SetActive(false);
+        }
+
+        if (showColorTexture)
+        {
+            colorTexture.gameObject.SetActive(true);
+            colorTexture.texture = TextureGenerator.TextureFromColorMap(colorMap, mapWidth, mapHeight);
+        }
+        else if (!showColorTexture)
+        {
+            colorTexture.gameObject.SetActive(false);
+        }
+    }
 }
 
 [System.Serializable]
 public struct TerrainType
 {
     [SerializeField] private string name;
-    public float height;
+    public float maxHeight;
     public Color color;
 }

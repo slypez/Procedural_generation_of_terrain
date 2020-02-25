@@ -10,7 +10,7 @@ public class MapDrawer : MonoBehaviour
 
     public void DrawTexture(Texture2D texture)
     {
-        renderer.sharedMaterial.mainTexture = texture;
+        meshRenderer.sharedMaterial.SetTexture("_BaseMap", texture);
         renderer.transform.localScale = new Vector3(texture.width, 1, texture.height);
     }
 
