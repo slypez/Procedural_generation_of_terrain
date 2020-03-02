@@ -6,11 +6,11 @@ using UnityEngine;
 public class GUIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI algorithmText;
-    private MapGenerator mapGenerator;
+    private MapPreview mapPreview;
 
     private void Start()
     {
-        mapGenerator = FindObjectOfType<MapGenerator>();
+        mapPreview = FindObjectOfType<MapPreview>();
     }
 
     private void Update()
@@ -20,6 +20,6 @@ public class GUIManager : MonoBehaviour
 
     private void UpdateGUI()
     {
-        algorithmText.text = "Current algorithm: " + mapGenerator.NoiseAlgorithm.ToString();
+        algorithmText.text = "Current algorithm: " + mapPreview.NoiseAlgorithm.ToString();
     }
 }
