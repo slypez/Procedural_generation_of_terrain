@@ -6,12 +6,7 @@ using UnityEngine;
 public class GUIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI algorithmText;
-    private MapPreview mapPreview;
-
-    private void Start()
-    {
-        mapPreview = FindObjectOfType<MapPreview>();
-    }
+    [SerializeField] private HeightMapSettings heightMapSettings;
 
     private void Update()
     {
@@ -20,6 +15,6 @@ public class GUIManager : MonoBehaviour
 
     private void UpdateGUI()
     {
-        algorithmText.text = "Current algorithm: " + mapPreview.NoiseAlgorithm.ToString();
+        algorithmText.text = "Current algorithm: " + heightMapSettings.noiseSettings.noiseAlgorithm.ToString();
     }
 }
