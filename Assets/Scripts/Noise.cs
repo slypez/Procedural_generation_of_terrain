@@ -247,7 +247,7 @@ public class NoiseSettings
     public float scale;
     public Vector2 offset;
     [Header("Diamond-square")]
-    public float deleteThisVariableLater;
+    public int roughness;
     public void ValidateValues()
     {
         scale = Mathf.Max(scale, 0.01f);
@@ -255,70 +255,4 @@ public class NoiseSettings
         lacunarity = Mathf.Max(lacunarity, 1);
         persistance = Mathf.Clamp01(persistance);
     }
-}
-
-public static class DiamondSquare
-{
-
-
-    //public void sampleSquare(int x, int y, int size, double value)
-    //{
-    //    int hs = size / 2;
-
-    //    // a     b 
-    //    //
-    //    //    x
-    //    //
-    //    // c     d
-
-    //    double a = sample(x - hs, y - hs);
-    //    double b = sample(x + hs, y - hs);
-    //    double c = sample(x - hs, y + hs);
-    //    double d = sample(x + hs, y + hs);
-
-    //    setSample(x, y, ((a + b + c + d) / 4.0) + value);
-
-    //}
-
-    //public void sampleDiamond(int x, int y, int size, double value)
-    //{
-    //    int hs = size / 2;
-
-    //    //   c
-    //    //
-    //    //a  x  b
-    //    //
-    //    //   d
-
-    //    double a = sample(x - hs, y);
-    //    double b = sample(x + hs, y);
-    //    double c = sample(x, y - hs);
-    //    double d = sample(x, y + hs);
-
-    //    setSample(x, y, ((a + b + c + d) / 4.0) + value);
-    //}
-
-    //private void DiamondSquareAlgorithm(int stepsize, double scale)
-    //{
-
-    //    int halfstep = stepsize / 2;
-
-    //    for (int y = halfstep; y <= h + halfstep; y += stepsize)
-    //{
-    //        for (int x = halfstep; x <= w + halfstep; x += stepsize)
-    //    {
-    //            sampleSquare(x, y, stepsize, Random.Range(-1f, 1f));
-    //        }
-    //    }
-
-    //    for (int y = 0; y <= h; y += stepsize)
-    //{
-    //        for (int x = 0; x <= w; x += stepsize)
-    //    {
-    //            sampleDiamond(x + halfstep, y, stepsize, Random.Range(-1f, 1f));
-    //            sampleDiamond(x, y + halfstep, stepsize, Random.Range(-1f, 1f));
-    //        }
-    //    }
-
-    //}
 }
