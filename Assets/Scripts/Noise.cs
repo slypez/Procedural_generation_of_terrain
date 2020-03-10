@@ -48,9 +48,7 @@ public static class Noise
         int sideLength, halfSide, x, y;
         float halfWidth = mapWidth / 2f;
         float halfHeight = mapHeight / 2f;
-        float h = 0.5f;
         float avgValue;
-        float roughness = 1.7f;
 
         //Initialize: Give 4 corners values for algorithm
         noiseMap[0, 0] = Random.value;
@@ -62,53 +60,6 @@ public static class Noise
         {
             halfSide = sideLength / 2;
 
-            //Square-step
-            for (x = 0; x < mapHeight - 1 - sideLength; x += sideLength)
-            {
-                for (y = 0; y < mapWidth - 1 - sideLength; y += sideLength)
-                {
-                    amplitude = 1;
-                    frequency = 1;
-
-                    float noiseHeight = 0;
-                    for (int i = 0; i < settings.octaves; i++)
-                    {
-                        int newX = (int)(x / settings.scale * frequency);
-                        int newY = (int)(y / settings.scale * frequency);
-
-                        //int newX = (int)((x - halfWidth + octaveOffsets[i].x) / settings.scale * frequency);
-                        //int newY = (int)((y - halfHeight + octaveOffsets[i].y) / settings.scale * frequency);
-
-                        avgValue = noiseMap[x, y];
-                        avgValue += noiseMap[x + sideLength, y];
-                        avgValue += noiseMap[x, y + sideLength];
-                        avgValue += noiseMap[x + sideLength, y + sideLength];
-                        avgValue /= 4f;
-
-                        avgValue += (Random.value * 2 * h) - h;
-
-                        noiseMap[x, y] = avgValue;
-                        noiseHeight += avgValue /** amplitude*/;
-                        amplitude *= settings.persistance;
-                        frequency *= settings.lacunarity;
-                    }
-                    if (noiseHeight > maxLocalNoiseHeight)
-                    {
-                        maxLocalNoiseHeight = noiseHeight;
-                    }
-                    if (noiseHeight < minLocalNoiseHeight)
-                    {
-                        minLocalNoiseHeight = noiseHeight;
-                    }
-                    noiseMap[x + halfSide, y + halfSide] = noiseHeight;
-
-                    if (settings.normalizeMode == NormalizeMode.GLOBAL)
-                    {
-                        float normalizedHeight = (noiseMap[x, y] + 1) / (maxPossibleHeight);
-                        noiseMap[x, y] = Mathf.Clamp(normalizedHeight, 0, int.MaxValue);
-                    }
-                }
-            }
             //Diamond-step
             for (x = 0; x < mapWidth - 1; x+= halfSide)
             {
@@ -128,7 +79,9 @@ public static class Noise
                         avgValue += noiseMap[x, (y - halfSide + mapWidth - 1) % (mapWidth -1)];
                         avgValue /= 4f;
 
-                        avgValue += (Random.value * 2 * h) - h;
+                        //float rnd = (Random.value * 2f * settings.h) - settings.h;
+                        //avgValue = Mathf.Clamp01(avgValue + rnd);
+                        //avgValue += (Random.value * 2 * h) - h;
 
                         noiseMap[x, y] = avgValue;
                         noiseHeight += avgValue * amplitude;
@@ -161,7 +114,57 @@ public static class Noise
                     }
                 }
             }
-            h -= h * 0.5f * roughness;
+
+            //Square-step
+            for (x = 0; x < mapHeight - 1 - sideLength; x += sideLength)
+            {
+                for (y = 0; y < mapWidth - 1 - sideLength; y += sideLength)
+                {
+                    amplitude = 1;
+                    frequency = 1;
+
+                    float noiseHeight = 0;
+                    for (int i = 0; i < settings.octaves; i++)
+                    {
+                        int newX = (int)(x / settings.scale * frequency);
+                        int newY = (int)(y / settings.scale * frequency);
+
+                        //int newX = (int)((x - halfWidth + octaveOffsets[i].x) / settings.scale * frequency);
+                        //int newY = (int)((y - halfHeight + octaveOffsets[i].y) / settings.scale * frequency);
+
+                        avgValue = noiseMap[x, y];
+                        avgValue += noiseMap[x + sideLength, y];
+                        avgValue += noiseMap[x, y + sideLength];
+                        avgValue += noiseMap[x + sideLength, y + sideLength];
+                        avgValue /= 4f;
+
+                        //float rnd = (Random.value * 2f * settings.h) - settings.h;
+                        //avgValue = Mathf.Clamp01(avgValue + rnd);
+                        //avgValue += (Random.value * 2 * h) - h;
+
+                        noiseMap[x, y] = avgValue;
+                        noiseHeight += avgValue * amplitude;
+                        amplitude *= settings.persistance;
+                        frequency *= settings.lacunarity;
+                    }
+                    if (noiseHeight > maxLocalNoiseHeight)
+                    {
+                        maxLocalNoiseHeight = noiseHeight;
+                    }
+                    if (noiseHeight < minLocalNoiseHeight)
+                    {
+                        minLocalNoiseHeight = noiseHeight;
+                    }
+                    noiseMap[x + halfSide, y + halfSide] = noiseHeight;
+
+                    if (settings.normalizeMode == NormalizeMode.GLOBAL)
+                    {
+                        float normalizedHeight = (noiseMap[x, y] + 1) / (maxPossibleHeight);
+                        noiseMap[x, y] = Mathf.Clamp(normalizedHeight, 0, int.MaxValue);
+                    }
+                }
+            }
+            //settings.h -= settings.h * 0.5f * settings.roughness;
         }
 
         if (settings.normalizeMode == NormalizeMode.LOCAL)
@@ -243,7 +246,8 @@ public class NoiseSettings
     [Range(0f, 1f)] public float persistance;
     public float scale;
     public Vector2 offset;
-
+    [Header("Diamond-square")]
+    public float deleteThisVariableLater;
     public void ValidateValues()
     {
         scale = Mathf.Max(scale, 0.01f);

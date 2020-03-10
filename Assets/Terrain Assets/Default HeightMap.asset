@@ -17,11 +17,13 @@ MonoBehaviour:
     normalizeMode: 1
     noiseAlgorithm: 1
     seed: 0
-    octaves: 4
-    lacunarity: 1
+    octaves: 6
+    lacunarity: 2
     persistance: 0.5
     scale: 1
     offset: {x: 0, y: 0}
+    h: -47720.098
+    roughness: 11.32
   useFalloffMap: 0
   heightMultiplier: 30
   heightCurve:
