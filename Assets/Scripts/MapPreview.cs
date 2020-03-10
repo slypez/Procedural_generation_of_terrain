@@ -8,7 +8,6 @@ public class MapPreview : MonoBehaviour
     [SerializeField] private enum DrawMode { Mesh, NoiseMap, FalloffMap };
     [Header("General")]
     [SerializeField] private DrawMode drawMode;
-    public Noise.noiseAlgorithm NoiseAlgorithm;
     public Material terrainMaterial;
     public MeshSettings meshSettings;
     public HeightMapSettings heightMapSettings;
