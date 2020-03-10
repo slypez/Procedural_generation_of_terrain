@@ -2,6 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class Map
+{
+    public string name;
+    public MeshSettings meshSettings;
+    public HeightMapSettings heightMapSettings;
+    public TextureData textureData;
+}
+
 public class MapPreview : MonoBehaviour
 {
     public bool autoUpdate;
@@ -9,25 +18,23 @@ public class MapPreview : MonoBehaviour
     [Header("General")]
     [SerializeField] private DrawMode drawMode;
     public Material terrainMaterial;
-    public MeshSettings meshSettings;
-    public HeightMapSettings heightMapSettings;
-    public TextureData textureData;
     [SerializeField] private Renderer textureRenderer;
     [SerializeField] private MeshFilter meshFilter;
     [SerializeField] private MeshRenderer meshRenderer;
-
-    [Header("Map")]
-    [Range(0, MeshSettings.numSupportedLODs - 1)] [SerializeField] private int editorPreviewLOD; // LOD: 1, 2, 4, 8 . . .
-    [Header("GUI-images")]
+    [Header("Preview-images")]
     [SerializeField] private UnityEngine.UI.RawImage noiseTexturePreview;
     [SerializeField] private UnityEngine.UI.RawImage colorTexturePreview;
     [SerializeField] private UnityEngine.UI.RawImage falloffTexturePreview;
+    [Header("Map")]
+    [SerializeField] private int mapIndexSelector;
+    [Range(0, MeshSettings.numSupportedLODs - 1)] [SerializeField] private int editorPreviewLOD; // LOD: 1, 2, 4, 8 . . .
+    [SerializeField] private List<Map> maps = new List<Map>();
 
     public void DrawMapInEditor()
     {
-        textureData.ApplyToMaterial(terrainMaterial);
-        textureData.UpdateMeshHeights(terrainMaterial, heightMapSettings.minHeight, heightMapSettings.maxHeight);
-        HeightMap heightMap = HeightMapGenerator.GenerateHeightMap(meshSettings.numVertsPerRow, meshSettings.numVertsPerRow, heightMapSettings, Vector2.zero);
+        maps[mapIndexSelector].textureData.ApplyToMaterial(terrainMaterial);
+        maps[mapIndexSelector].textureData.UpdateMeshHeights(terrainMaterial, maps[mapIndexSelector].heightMapSettings.minHeight, maps[mapIndexSelector].heightMapSettings.maxHeight);
+        HeightMap heightMap = HeightMapGenerator.GenerateHeightMap(maps[mapIndexSelector].meshSettings.numVertsPerRow, maps[mapIndexSelector].meshSettings.numVertsPerRow, maps[mapIndexSelector].heightMapSettings, Vector2.zero);
 
 
         Texture2D noiseMap = null;
@@ -40,17 +47,17 @@ public class MapPreview : MonoBehaviour
         }
         else if (drawMode == DrawMode.Mesh)
         {
-            if (heightMapSettings.useFalloffMap)
+            if (maps[mapIndexSelector].heightMapSettings.useFalloffMap)
             {
-                falloffMap = TextureGenerator.TextureFromHeightMap(new HeightMap(FalloffGenerator.GenerateFalloffMap(meshSettings.numVertsPerRow), 0, 1));
+                falloffMap = TextureGenerator.TextureFromHeightMap(new HeightMap(FalloffGenerator.GenerateFalloffMap(maps[mapIndexSelector].meshSettings.numVertsPerRow), 0, 1));
             }
 
             noiseMap = TextureGenerator.TextureFromHeightMap(heightMap);
-            DrawMesh(MeshGenerator.GenerateTerrainMesh(heightMap.values, meshSettings, editorPreviewLOD));
+            DrawMesh(MeshGenerator.GenerateTerrainMesh(heightMap.values, maps[mapIndexSelector].meshSettings, editorPreviewLOD));
         }
         else if (drawMode == DrawMode.FalloffMap)
         {
-            falloffMap = TextureGenerator.TextureFromHeightMap(new HeightMap(FalloffGenerator.GenerateFalloffMap(meshSettings.numVertsPerRow), 0, 1));
+            falloffMap = TextureGenerator.TextureFromHeightMap(new HeightMap(FalloffGenerator.GenerateFalloffMap(maps[mapIndexSelector].meshSettings.numVertsPerRow), 0, 1));
             DrawTexture(falloffMap);
         }
 
@@ -120,25 +127,34 @@ public class MapPreview : MonoBehaviour
 
     private void OnTextureValuesUpdated()
     {
-        textureData.ApplyToMaterial(terrainMaterial);
+        maps[mapIndexSelector].textureData.ApplyToMaterial(terrainMaterial);
     }
 
     private void OnValidate()
     {
-        if (meshSettings != null)
+        if (maps[mapIndexSelector].meshSettings != null)
         {
-            meshSettings.OnValuesUpdated -= OnValuesUpdated;
-            meshSettings.OnValuesUpdated += OnValuesUpdated;
+            maps[mapIndexSelector].meshSettings.OnValuesUpdated -= OnValuesUpdated;
+            maps[mapIndexSelector].meshSettings.OnValuesUpdated += OnValuesUpdated;
         }
-        if (heightMapSettings != null)
+        if (maps[mapIndexSelector].heightMapSettings != null)
         {
-            heightMapSettings.OnValuesUpdated -= OnValuesUpdated;
-            heightMapSettings.OnValuesUpdated += OnValuesUpdated;
+            maps[mapIndexSelector].heightMapSettings.OnValuesUpdated -= OnValuesUpdated;
+            maps[mapIndexSelector].heightMapSettings.OnValuesUpdated += OnValuesUpdated;
         }
-        if (textureData != null)
+        if (maps[mapIndexSelector].textureData != null)
         {
-            textureData.OnValuesUpdated -= OnTextureValuesUpdated;
-            textureData.OnValuesUpdated += OnTextureValuesUpdated;
+            maps[mapIndexSelector].textureData.OnValuesUpdated -= OnTextureValuesUpdated;
+            maps[mapIndexSelector].textureData.OnValuesUpdated += OnTextureValuesUpdated;
+        }
+        //Clamp map-index
+        if(mapIndexSelector < 0)
+        {
+            mapIndexSelector = 0;
+        }
+        if(mapIndexSelector > maps.Count - 1)
+        {
+            mapIndexSelector = maps.Count - 1;
         }
     }
 }

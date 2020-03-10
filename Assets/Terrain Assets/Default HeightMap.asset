@@ -15,15 +15,14 @@ MonoBehaviour:
   autoUpdate: 1
   noiseSettings:
     normalizeMode: 1
-    noiseAlgorithm: 1
+    noiseAlgorithm: 0
     seed: 0
     octaves: 6
     lacunarity: 2
     persistance: 0.5
-    scale: 1
+    scale: 37.66
     offset: {x: 0, y: 0}
-    h: -47720.098
-    roughness: 11.32
+    roughness: 11
   useFalloffMap: 0
   heightMultiplier: 30
   heightCurve:
