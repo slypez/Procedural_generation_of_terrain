@@ -13,8 +13,18 @@ MonoBehaviour:
   m_Name: Default HeightMap
   m_EditorClassIdentifier: 
   autoUpdate: 1
+  noiseSettings:
+    normalizeMode: 1
+    noiseAlgorithm: 0
+    seed: 0
+    octaves: 6
+    lacunarity: 2
+    persistance: 0.5
+    scale: 37.66
+    offset: {x: 0, y: 0}
+    roughness: 11
   useFalloffMap: 0
-  heightMultiplier: 77.76
+  heightMultiplier: 30
   heightCurve:
     serializedVersion: 2
     m_Curve:
@@ -48,15 +58,3 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  noiseSettings:
-    noiseAlgorithm: 1
-    seed: 0
-    scale: 100
-    perlinSettings:
-      normalizeMode: 1
-      octaves: 6
-      lacunarity: 2
-      persistance: 0.5
-      offset: {x: 0, y: 0}
-    diamondSquareSettings:
-      roughness: 245
