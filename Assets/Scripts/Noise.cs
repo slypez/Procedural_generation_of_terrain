@@ -11,21 +11,21 @@ public static class Noise
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
         System.Random randomNr = new System.Random(settings.seed);
-        Random.InitState(settings.seed);
-        Vector2[] octaveOffsets = new Vector2[settings.octaves];
+        //Random.InitState(settings.seed); // Fix so that this is works later
+        Vector2[] octaveOffsets = new Vector2[settings.perlinSettings.octaves];
         float maxPossibleHeight = 0;
         float amplitude = 1;
         float frequency = 1;
 
-        for (int i = 0; i < settings.octaves; i++)
+        for (int i = 0; i < settings.perlinSettings.octaves; i++)
         {
-            float offsetX = randomNr.Next(-100000, 100000) + settings.offset.x + sampleCenter.x;
-            float offsetY = randomNr.Next(-100000, 100000) - settings.offset.y - sampleCenter.y;
+            float offsetX = randomNr.Next(-100000, 100000) + settings.perlinSettings.offset.x + sampleCenter.x;
+            float offsetY = randomNr.Next(-100000, 100000) - settings.perlinSettings.offset.y - sampleCenter.y;
 
             octaveOffsets[i] = new Vector2(offsetX, offsetY);
 
             maxPossibleHeight += amplitude;
-            amplitude *= settings.persistance;
+            amplitude *= settings.perlinSettings.persistance;
         }
 
         float maxLocalNoiseHeight = float.MinValue;
@@ -37,12 +37,33 @@ public static class Noise
                 PerlinNoise(mapWidth, mapHeight, settings, frequency, amplitude, octaveOffsets, minLocalNoiseHeight, maxLocalNoiseHeight, maxPossibleHeight, noiseMap);
                 break;
             case noiseAlgorithm.DIAMOND:
-                DiamondSquareNoise(mapWidth, mapHeight, settings, frequency, amplitude, octaveOffsets, minLocalNoiseHeight, maxLocalNoiseHeight, maxPossibleHeight, noiseMap);
+
+                //int chunkSize = -1;
+                //while (Mathf.IsPowerOfTwo(chunkSize) == false)
+                //{
+                //    if (Mathf.IsPowerOfTwo(Mathf.ClosestPowerOfTwo(mapWidth)))
+                //    {
+                //        chunkSize = Mathf.ClosestPowerOfTwo(mapWidth);
+                //        break;
+                //    }
+                //    else
+                //    {
+                //        if(mapWidth != 0)
+                //        {
+                //            mapWidth--;
+                //        }
+                //    }
+                //}
+
+                DiamondSquare.GenerateDiamondNoiseMap((int)Mathf.Pow(2, 6) + 1, (int)Mathf.Pow(2, 6) + 1, settings, randomNr);
                 break;
         }
 
         return noiseMap;
     }
+
+
+    /*
     private static void DiamondSquareNoise(int mapWidth, int mapHeight, NoiseSettings settings, float frequency, float amplitude, Vector2[] octaveOffsets, float minLocalNoiseHeight, float maxLocalNoiseHeight, float maxPossibleHeight, float[,] noiseMap) // Om det inte fungerar, se till att noiseMapen i parametern är en direkt ref keyword till den riktiga som går in.
     {
         int sideLength, halfSide, x, y;
@@ -178,6 +199,7 @@ public static class Noise
             }
         }
     }
+    */
 
     private static void PerlinNoise(int mapWidth, int mapHeight, NoiseSettings settings, float frequency, float amplitude, Vector2[] octaveOffsets, float minLocalNoiseHeight, float maxLocalNoiseHeight, float maxPossibleHeight, float[,] noiseMap)
     {
@@ -191,7 +213,7 @@ public static class Noise
                 amplitude = 1;
                 frequency = 1;
                 float noiseHeight = 0;
-                for (int i = 0; i < settings.octaves; i++)
+                for (int i = 0; i < settings.perlinSettings.octaves; i++)
                 {
                     float xCoord = (x - halfWidth + octaveOffsets[i].x) / settings.scale * frequency;
                     float yCoord = (y - halfHeight + octaveOffsets[i].y) / settings.scale * frequency;
@@ -200,8 +222,8 @@ public static class Noise
 
                     noiseMap[x, y] = noiseValue;
                     noiseHeight += noiseValue * amplitude;
-                    amplitude *= settings.persistance;
-                    frequency *= settings.lacunarity;
+                    amplitude *= settings.perlinSettings.persistance;
+                    frequency *= settings.perlinSettings.lacunarity;
                 }
                 if (noiseHeight > maxLocalNoiseHeight)
                 {
@@ -213,7 +235,7 @@ public static class Noise
                 }
                 noiseMap[x, y] = noiseHeight;
 
-                if (settings.normalizeMode == NormalizeMode.GLOBAL)
+                if (settings.perlinSettings.normalizeMode == NormalizeMode.GLOBAL)
                 {
                     float normalizedHeight = (noiseMap[x, y] + 1) / (maxPossibleHeight);
                     noiseMap[x, y] = Mathf.Clamp(normalizedHeight, 0, int.MaxValue);
@@ -221,7 +243,7 @@ public static class Noise
             }
         }
 
-        if (settings.normalizeMode == NormalizeMode.LOCAL)
+        if (settings.perlinSettings.normalizeMode == NormalizeMode.LOCAL)
         {
             for (int y = 0; y < mapHeight; y++)
             {
@@ -237,22 +259,33 @@ public static class Noise
 [System.Serializable]
 public class NoiseSettings
 {
-    [Header("Parameters")]
-    public Noise.NormalizeMode normalizeMode;
+    [Header("General")]
     public Noise.noiseAlgorithm noiseAlgorithm;
     public int seed;
+    public float scale;
+    
+    public PerlinSettings perlinSettings;
+    public DiamondSquareSettings diamondSquareSettings;
+    [System.Serializable]
+    public class PerlinSettings
+    {
+    public Noise.NormalizeMode normalizeMode;
     public int octaves;
     public float lacunarity;
     [Range(0f, 1f)] public float persistance;
-    public float scale;
     public Vector2 offset;
-    [Header("Diamond-square")]
-    public int roughness;
+    }
+    [System.Serializable]
+    public class DiamondSquareSettings
+    {
+        public int roughness;
+    }
+
     public void ValidateValues()
     {
         scale = Mathf.Max(scale, 0.01f);
-        octaves = Mathf.Max(octaves, 1);
-        lacunarity = Mathf.Max(lacunarity, 1);
-        persistance = Mathf.Clamp01(persistance);
+        perlinSettings.octaves = Mathf.Max(perlinSettings.octaves, 1);
+        perlinSettings.lacunarity = Mathf.Max(perlinSettings.lacunarity, 1);
+        perlinSettings.persistance = Mathf.Clamp01(perlinSettings.persistance);
     }
 }

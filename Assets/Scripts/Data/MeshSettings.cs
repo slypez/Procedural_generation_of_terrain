@@ -8,7 +8,8 @@ public class MeshSettings : UpdatableData
     public const int numSupportedLODs = 5;
     public const int numSupportedChunkSizes = 9;
     public const int numSupportedFlatshadedChunkSizes = 3;
-    public static readonly int[] supportedChunkSizes = { 48, 72, 96, 120, 144, 168, 192, 216, 240 };
+    public static readonly int[] supportedChunkSizesPerlin = { 48, 72, 96, 120, 144, 168, 192, 216, 240 };
+    public static readonly int[] supportedChunkSizesDiamondSquare = { 65, 129 };
 
     [Header("Parameters")]
     public bool useFlatShading;
@@ -22,7 +23,7 @@ public class MeshSettings : UpdatableData
     {
         get
         {
-            return supportedChunkSizes[(useFlatShading) ? flatshadedChunkSizeIndex : chunkSizeIndex] + 5;
+            return supportedChunkSizesPerlin[(useFlatShading) ? flatshadedChunkSizeIndex : chunkSizeIndex] + 5;
         }
     }
 

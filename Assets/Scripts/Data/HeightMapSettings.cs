@@ -5,10 +5,10 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class HeightMapSettings : UpdatableData
 {
-    public NoiseSettings noiseSettings;
     public bool useFalloffMap;
     public float heightMultiplier;
     public AnimationCurve heightCurve;
+    public NoiseSettings noiseSettings;
 
     public float minHeight
     {

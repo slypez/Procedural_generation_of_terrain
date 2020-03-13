@@ -13,15 +13,6 @@ MonoBehaviour:
   m_Name: HeightMap_Mordor
   m_EditorClassIdentifier: 
   autoUpdate: 1
-  noiseSettings:
-    normalizeMode: 1
-    noiseAlgorithm: 0
-    seed: 0
-    octaves: 6
-    lacunarity: 2
-    persistance: 0.45
-    scale: 200
-    offset: {x: 0, y: 0}
   useFalloffMap: 0
   heightMultiplier: 200
   heightCurve:
@@ -57,3 +48,15 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  noiseSettings:
+    noiseAlgorithm: 0
+    seed: 0
+    scale: 200
+    perlinSettings:
+      normalizeMode: 1
+      octaves: 6
+      lacunarity: 2
+      persistance: 0.45
+      offset: {x: 0, y: 0}
+    diamondSquareSettings:
+      roughness: 0
