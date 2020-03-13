@@ -22,8 +22,7 @@ MonoBehaviour:
     persistance: 0.5
     scale: 1
     offset: {x: 0, y: 0}
-    h: -47720.098
-    roughness: 11.32
+    roughness: -132
   useFalloffMap: 0
   heightMultiplier: 30
   heightCurve:
