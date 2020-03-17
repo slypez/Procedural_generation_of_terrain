@@ -31,32 +31,41 @@ public static class Noise
         float maxLocalNoiseHeight = float.MinValue;
         float minLocalNoiseHeight = float.MaxValue;
 
-        switch (settings.noiseAlgorithm)
+        //switch (settings.noiseAlgorithm)
+        //{
+        //    case noiseAlgorithm.PERLIN:
+        //        PerlinNoise(mapWidth, mapHeight, settings, frequency, amplitude, octaveOffsets, minLocalNoiseHeight, maxLocalNoiseHeight, maxPossibleHeight, noiseMap);
+        //        break;
+        //    case noiseAlgorithm.DIAMOND:
+
+        //        //int chunkSize = -1;
+        //        //while (Mathf.IsPowerOfTwo(chunkSize) == false)
+        //        //{
+        //        //    if (Mathf.IsPowerOfTwo(Mathf.ClosestPowerOfTwo(mapWidth)))
+        //        //    {
+        //        //        chunkSize = Mathf.ClosestPowerOfTwo(mapWidth);
+        //        //        break;
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        if(mapWidth != 0)
+        //        //        {
+        //        //            mapWidth--;
+        //        //        }
+        //        //    }
+        //        //}
+
+        //        noiseMap = DiamondSquare.GenerateDiamondNoiseMap(65, 65, settings, randomNr);
+        //        break;
+        //}
+
+        if (settings.noiseAlgorithm == noiseAlgorithm.PERLIN)
         {
-            case noiseAlgorithm.PERLIN:
-                PerlinNoise(mapWidth, mapHeight, settings, frequency, amplitude, octaveOffsets, minLocalNoiseHeight, maxLocalNoiseHeight, maxPossibleHeight, noiseMap);
-                break;
-            case noiseAlgorithm.DIAMOND:
-
-                //int chunkSize = -1;
-                //while (Mathf.IsPowerOfTwo(chunkSize) == false)
-                //{
-                //    if (Mathf.IsPowerOfTwo(Mathf.ClosestPowerOfTwo(mapWidth)))
-                //    {
-                //        chunkSize = Mathf.ClosestPowerOfTwo(mapWidth);
-                //        break;
-                //    }
-                //    else
-                //    {
-                //        if(mapWidth != 0)
-                //        {
-                //            mapWidth--;
-                //        }
-                //    }
-                //}
-
-                DiamondSquare.GenerateDiamondNoiseMap((int)Mathf.Pow(2, 6) + 1, (int)Mathf.Pow(2, 6) + 1, settings, randomNr);
-                break;
+            PerlinNoise(mapWidth, mapHeight, settings, frequency, amplitude, octaveOffsets, minLocalNoiseHeight, maxLocalNoiseHeight, maxPossibleHeight, noiseMap);
+        }
+        else
+        {
+            noiseMap = DiamondSquare.GenerateDiamondNoiseMap(65, 65, settings, randomNr);
         }
 
         return noiseMap;
