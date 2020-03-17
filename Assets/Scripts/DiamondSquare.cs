@@ -20,7 +20,7 @@ public static class DiamondSquare
 
 		//Random.InitState(settings.seed);
 
-		int h = settings.roughness;
+		int h = settings.diamondSquareSettings.roughness;
 		noiseMap[0, 0] = rng.Next(-h, h);
 		noiseMap[mapHeight - 1, 0] = rng.Next(-h, h);
 		noiseMap[0, mapHeight - 1] = rng.Next(-h, h);

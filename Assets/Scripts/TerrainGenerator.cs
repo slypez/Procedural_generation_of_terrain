@@ -39,6 +39,7 @@ public class TerrainGenerator : MonoBehaviour
 
     private void Update()
     {
+        //Debug.LogError("#Code 32: Data corrupted, close unity, project is corrupted."); //PepeLaugh
         viewerPosition = new Vector2(viewer.position.x, viewer.position.z);
 
         if(viewerPosition != viewerPositionOld)
@@ -49,7 +50,7 @@ public class TerrainGenerator : MonoBehaviour
             }
         }
 
-        if((viewerPositionOld - viewerPosition).sqrMagnitude > sqrviewerMoveThresholdForChunkUpdate)
+        if((viewerPositionOld - viewerPosition).sqrMagnitude > sqrviewerMoveThresholdForChunkUpdate)    
         {
             viewerPositionOld = viewerPosition;
             UpdateVisisbleChunks();
