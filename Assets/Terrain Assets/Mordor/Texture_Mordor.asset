@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ddf3c34ed18339419856ed1c733e577, type: 3}
+  m_Name: Texture_Mordor
+  m_EditorClassIdentifier: 
+  autoUpdate: 1
+  layers:
+  - texture: {fileID: 2800000, guid: 60adf92017149d44f8b849c734ff50d7, type: 3}
+    tint: {r: 1, g: 0, b: 0.051799774, a: 0}
+    tintStrength: 0.1
+    startHeight: 0
+    blendStrength: 0
+    textureScale: 10
+  - texture: {fileID: 2800000, guid: 4e1e193127414cc4c82ca8bb47ad279b, type: 3}
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    tintStrength: 0
+    startHeight: 0.1
+    blendStrength: 0.05
+    textureScale: 10
+  - texture: {fileID: 2800000, guid: 1b093c47495f22341b6c1b99d0e71ad7, type: 3}
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    tintStrength: 0.25
+    startHeight: 0.2
+    blendStrength: 0.05
+    textureScale: 20
+  - texture: {fileID: 2800000, guid: 136cf8445f946aa4cb9e083b15bbc2a5, type: 3}
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    tintStrength: 0.4
+    startHeight: 0.4
+    blendStrength: 0.15
+    textureScale: 20
+  - texture: {fileID: 2800000, guid: 3b0df761861604647be2387e1363a78c, type: 3}
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    tintStrength: 0.5
+    startHeight: 0.7
+    blendStrength: 0.4
+    textureScale: 15

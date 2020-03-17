@@ -17,9 +17,14 @@ public class MapPreviewEditor : Editor
             }
         }
 
-        if (GUILayout.Button("Generate"))
+        if (GUILayout.Button("Generate terrain"))
         {
             mapPreview.DrawMapInEditor();
+        }
+
+        if (GUILayout.Button("Generate flood-fill stats"))
+        {
+            FloodFill.GenerateFloodFillData(mapPreview.previewMeshFilter.sharedMesh.vertices);
         }
     }
 }
