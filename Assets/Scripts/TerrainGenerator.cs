@@ -12,9 +12,9 @@ public class TerrainGenerator : MonoBehaviour
     [SerializeField] private Transform viewer;
     [SerializeField] private Material mapMaterial;
 
-    public MeshSettings meshSettings;
-    public HeightMapSettings heightMapSettings;
-    public TextureData textureSettings;
+    private MeshSettings meshSettings;
+    private HeightMapSettings heightMapSettings;
+    private TextureData textureSettings;
 
 
     //Full hidden variables
@@ -27,6 +27,11 @@ public class TerrainGenerator : MonoBehaviour
 
     private void Start()
     {
+        MapPreview mapPreview = FindObjectOfType<MapPreview>();
+        meshSettings = mapPreview.maps[mapPreview.mapIndexSelector].meshSettings;
+        heightMapSettings = mapPreview.maps[mapPreview.mapIndexSelector].heightMapSettings;
+        textureSettings = mapPreview.maps[mapPreview.mapIndexSelector].textureData;
+
         textureSettings.ApplyToMaterial(mapMaterial);
         textureSettings.UpdateMeshHeights(mapMaterial, heightMapSettings.minHeight, heightMapSettings.maxHeight);
 
@@ -36,6 +41,7 @@ public class TerrainGenerator : MonoBehaviour
 
         UpdateVisisbleChunks();
     }
+
 
     private void Update()
     {

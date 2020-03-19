@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoUpdate: 1
   useFalloffMap: 0
-  heightMultiplier: 30
+  heightMultiplier: 15
   heightCurve:
     serializedVersion: 2
     m_Curve:
@@ -51,7 +51,7 @@ MonoBehaviour:
   noiseSettings:
     noiseAlgorithm: 1
     seed: 0
-    scale: 37.66
+    scale: 1
     perlinSettings:
       normalizeMode: 1
       octaves: 5
@@ -59,4 +59,4 @@ MonoBehaviour:
       persistance: 0.5
       offset: {x: 0, y: 0}
     diamondSquareSettings:
-      roughness: 50
+      roughness: 2

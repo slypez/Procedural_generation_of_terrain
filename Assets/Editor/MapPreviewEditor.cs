@@ -24,7 +24,17 @@ public class MapPreviewEditor : Editor
 
         if (GUILayout.Button("Generate flood-fill stats"))
         {
-            FloodFill.GenerateFloodFillData(mapPreview.previewMeshFilter.sharedMesh.vertices);
+            float floodFillAverageTraversal = 0f;
+            for (int i = 0; i < mapPreview.floodFillSampleRate; i++)
+            {
+                floodFillAverageTraversal += FloodFill.GenerateFloodFillData(mapPreview.floodFillHeightThresholdValue, mapPreview.previewMeshFilter);
+
+                mapPreview.maps[mapPreview.mapIndexSelector].heightMapSettings.noiseSettings.seed = Random.Range(0, int.MaxValue);
+                mapPreview.DrawMapInEditor();
+            }
+
+            floodFillAverageTraversal /= mapPreview.floodFillSampleRate;
+            Debug.Log("Traversal of terrain is: " + (floodFillAverageTraversal * 100f) + "%" + " with a samplerate of " + mapPreview.floodFillSampleRate);
         }
     }
 }

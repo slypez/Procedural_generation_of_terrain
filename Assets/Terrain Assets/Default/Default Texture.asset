@@ -14,33 +14,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoUpdate: 1
   layers:
-  - texture: {fileID: 2800000, guid: 60adf92017149d44f8b849c734ff50d7, type: 3}
-    tint: {r: 1, g: 0, b: 0.051799774, a: 0}
-    tintStrength: 0.1
+  - texture: {fileID: 2800000, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 0}
+    tintStrength: 0
     startHeight: 0
     blendStrength: 0
     textureScale: 10
-  - texture: {fileID: 2800000, guid: 4e1e193127414cc4c82ca8bb47ad279b, type: 3}
-    tint: {r: 0, g: 0, b: 0, a: 0}
+  - texture: {fileID: 2800000, guid: 7cebcf3cd2a79b84ca06973e7f8345a3, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 0}
     tintStrength: 0
     startHeight: 0.1
     blendStrength: 0.05
     textureScale: 10
-  - texture: {fileID: 2800000, guid: 1b093c47495f22341b6c1b99d0e71ad7, type: 3}
-    tint: {r: 0, g: 0, b: 0, a: 0}
-    tintStrength: 0.25
+  - texture: {fileID: -1777904995039789683, guid: 8570d50bc7ddce4419c94ddc09a2b856,
+      type: 2}
+    tint: {r: 1, g: 1, b: 1, a: 0}
+    tintStrength: 0
     startHeight: 0.2
     blendStrength: 0.05
     textureScale: 20
-  - texture: {fileID: 2800000, guid: 136cf8445f946aa4cb9e083b15bbc2a5, type: 3}
-    tint: {r: 0, g: 0, b: 0, a: 0}
-    tintStrength: 0.4
+  - texture: {fileID: 2800000, guid: 08c4920aec31f1649a3149eec0110de3, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 0}
+    tintStrength: 0
     startHeight: 0.4
     blendStrength: 0.15
     textureScale: 20
-  - texture: {fileID: 2800000, guid: 3b0df761861604647be2387e1363a78c, type: 3}
-    tint: {r: 0, g: 0, b: 0, a: 0}
-    tintStrength: 0.5
+  - texture: {fileID: 2800000, guid: 20fd03dad40a5de48b6d17322a0dbb9c, type: 3}
+    tint: {r: 1, g: 1, b: 1, a: 0}
+    tintStrength: 0
     startHeight: 0.7
     blendStrength: 0.4
     textureScale: 15

@@ -26,10 +26,13 @@ public class MapPreview : MonoBehaviour
     [SerializeField] private UnityEngine.UI.RawImage noiseTexturePreview;
     [SerializeField] private UnityEngine.UI.RawImage colorTexturePreview;
     [SerializeField] private UnityEngine.UI.RawImage falloffTexturePreview;
+    [Header("Testing")]
+    public int floodFillSampleRate;
+    public float floodFillHeightThresholdValue;
     [Header("Map")]
-    [SerializeField] private int mapIndexSelector;
+    public int mapIndexSelector;
     [Range(0, MeshSettings.numSupportedLODs - 1)] [SerializeField] private int editorPreviewLOD; // LOD: 1, 2, 4, 8 . . .
-    [SerializeField] private List<Map> maps = new List<Map>();
+    public List<Map> maps = new List<Map>();
 
     public void DrawMapInEditor()
     {
