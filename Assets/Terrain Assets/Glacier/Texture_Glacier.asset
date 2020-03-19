@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ddf3c34ed18339419856ed1c733e577, type: 3}
+  m_Name: Texture_Glacier
+  m_EditorClassIdentifier: 
+  autoUpdate: 1
+  layers:
+  - texture: {fileID: 2800000, guid: 389a4557555fec24cbe5d5f76a39b466, type: 3}
+    tint: {r: 0.227451, g: 0.34901962, b: 0.48235297, a: 1}
+    tintStrength: 0.3
+    startHeight: 0
+    blendStrength: 0
+    textureScale: 10
+  - texture: {fileID: 2800000, guid: 7cebcf3cd2a79b84ca06973e7f8345a3, type: 3}
+    tint: {r: 0.9490197, g: 0.94117653, b: 0.9490197, a: 1}
+    tintStrength: 0.3
+    startHeight: 0.005
+    blendStrength: 0
+    textureScale: 10
+  - texture: {fileID: 2800000, guid: 20fd03dad40a5de48b6d17322a0dbb9c, type: 3}
+    tint: {r: 0.3254902, g: 0.2901961, b: 0.23137257, a: 1}
+    tintStrength: 0.3
+    startHeight: 0.311
+    blendStrength: 0
+    textureScale: 10
