@@ -25,14 +25,16 @@ public class MapPreviewEditor : Editor
         if (GUILayout.Button("Generate flood-fill stats"))
         {
             float floodFillAverageTraversal = 0f;
+            int saveSeed = mapPreview.maps[mapPreview.mapIndexSelector].heightMapSettings.noiseSettings.seed;
+
             for (int i = 0; i < mapPreview.floodFillSampleRate; i++)
             {
-                floodFillAverageTraversal += FloodFill.GenerateFloodFillData(mapPreview.floodFillHeightThresholdValue, mapPreview.previewMeshFilter);
-
+                floodFillAverageTraversal += FloodFill.GenerateFloodFillData(mapPreview.floodFillHeightThresholdValue, mapPreview.previewMeshFilter, mapPreview.debugMaterial, mapPreview.debugFloodFill);
                 mapPreview.maps[mapPreview.mapIndexSelector].heightMapSettings.noiseSettings.seed = Random.Range(0, int.MaxValue);
                 mapPreview.DrawMapInEditor();
             }
-
+            mapPreview.maps[mapPreview.mapIndexSelector].heightMapSettings.noiseSettings.seed = saveSeed;
+            mapPreview.DrawMapInEditor();
             floodFillAverageTraversal /= mapPreview.floodFillSampleRate;
             Debug.Log("Traversal of terrain is: " + (floodFillAverageTraversal * 100f) + "%" + " with a samplerate of " + mapPreview.floodFillSampleRate);
         }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoUpdate: 1
   useFalloffMap: 0
-  heightMultiplier: 15
+  heightMultiplier: 5
   heightCurve:
     serializedVersion: 2
     m_Curve:

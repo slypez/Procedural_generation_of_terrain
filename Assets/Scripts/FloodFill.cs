@@ -10,7 +10,7 @@ public static class FloodFill
 
     private static void CheckIfQueueNeighbor(int index, float limit, Vector3[] allVertices, Vector3 currentNode)
     {
-        if (allVertices[index].y - currentNode.y <= limit)
+        if (Mathf.Abs(allVertices[index].y - currentNode.y) <= limit)
         {
             if (l.Contains(allVertices[index]) == false)
             {
@@ -24,10 +24,11 @@ public static class FloodFill
         }
     }
 
-    public static float GenerateFloodFillData(float heightThresholdValue, MeshFilter meshFilter)
+    public static float GenerateFloodFillData(float heightThresholdValue, MeshFilter meshFilter, Material debugMaterial, bool debug = false)
     {
         Vector3[] verts = meshFilter.sharedMesh.vertices;
         Vector3 cNode;
+        Transform debugContainer = meshFilter.transform.GetChild(0);
 
         //Initialize
         int width = (int)meshFilter.sharedMesh.bounds.size.x;
@@ -61,8 +62,38 @@ public static class FloodFill
         }
 
         float averageTraversal = (float)l.Count / (float)verts.Length;
-        //Debug.Log("FF average: " + (averageTraversal *100f) + "%" + " list.Count: " + l.Count + " and all vert.Length is: " + verts.Length);
+
+        CheckIfDestroyOldDebugArea(debugContainer);
+        if (debug)
+        {
+            DebugFloodFillArea(debugContainer, debugMaterial, l);
+        }
         return averageTraversal;
     }
 
+    private static void CheckIfDestroyOldDebugArea(Transform parent)
+    {
+        if (parent.childCount > 0)
+        {
+            for (int i = parent.childCount; i > 0; --i)
+            {
+                GameObject.DestroyImmediate(parent.GetChild(0).gameObject);
+            }
+        }
+    }
+
+    private static void DebugFloodFillArea(Transform parent, Material debugMaterial, List<Vector3> traversableVertices)
+    {
+        // [*Old must be deleted either before this function or in here at top*]
+
+        // Spawn new 
+        foreach (Vector3 vertex in traversableVertices)
+        {
+            GameObject debugVertex = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            debugVertex.transform.parent = parent;
+            debugVertex.transform.position = vertex;
+            GameObject.DestroyImmediate(debugVertex.GetComponent<SphereCollider>());
+            debugVertex.GetComponent<Renderer>().sharedMaterial = debugMaterial;
+        }
+    }
 }
