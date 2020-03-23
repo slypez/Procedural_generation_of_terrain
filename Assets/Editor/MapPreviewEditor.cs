@@ -29,7 +29,7 @@ public class MapPreviewEditor : Editor
 
             for (int i = 0; i < mapPreview.floodFillSampleRate; i++)
             {
-                floodFillAverageTraversal += FloodFill.GenerateFloodFillData(mapPreview.floodFillHeightThresholdValue, mapPreview.previewMeshFilter, mapPreview.debugMaterial, mapPreview.debugFloodFill);
+                floodFillAverageTraversal += FloodFill.GenerateFloodFillData(mapPreview.floodFillHeightThresholdValue, mapPreview.previewMeshFilter, mapPreview.debugMaterialWalking, mapPreview.debugMaterialJumping, mapPreview.debugMaterialNotReachable, mapPreview.includeJumpTraversability, mapPreview.floodFillJumpHeightThresholdValue, mapPreview.debugTraversability, mapPreview.debugNonTraversability);
                 mapPreview.maps[mapPreview.mapIndexSelector].heightMapSettings.noiseSettings.seed = Random.Range(0, int.MaxValue);
                 mapPreview.DrawMapInEditor();
             }
