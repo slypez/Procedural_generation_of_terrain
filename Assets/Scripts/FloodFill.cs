@@ -150,7 +150,7 @@ public static class FloodFill
 
     }
 
-    private static void CheckIfDestroyOldDebugArea(Transform parent)
+    public static void CheckIfDestroyOldDebugArea(Transform parent)
     {
         if (parent.childCount > 0)
         {

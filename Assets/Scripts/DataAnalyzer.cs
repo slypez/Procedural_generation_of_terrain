@@ -5,7 +5,9 @@ using UnityEngine;
 public static class DataAnalyzer
 {
     public enum valueRepresentation { ExecutionTime, Traversability };
+    public enum unitOfTime { None, Milliseconds, Seconds, Minutes, Hours }
     public enum numberForm { Percent, Decimal };
+
     private static float averageValue;
     private static float medianValue;
     private static float maxValue;
@@ -13,9 +15,11 @@ public static class DataAnalyzer
     private static float standardDeviationValue;
     private static int sampleRate;
 
+    public static System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+
     private static float SOME_OTHER_STATISTIC_HERE_NORMALFÖRDELNING_KANSKE;
 
-    private static void LogData(valueRepresentation v, numberForm form, int floatPrecision)
+    private static void LogData(valueRepresentation v, numberForm form, int floatPrecision, unitOfTime unitOfTime = unitOfTime.None)
     {
         string name = "";
         string unit = "";
@@ -40,10 +44,27 @@ public static class DataAnalyzer
         }
         else if(form == numberForm.Decimal)
         {
-            unit = "units";
+            switch (unitOfTime)
+            {
+                case unitOfTime.None:
+                    unit = "units";
+                    break;
+                case unitOfTime.Milliseconds:
+                    unit = "ms";
+                    break;
+                case unitOfTime.Seconds:
+                    unit = "s";
+                    break;
+                case unitOfTime.Minutes:
+                    unit = "m";
+                    break;
+                case unitOfTime.Hours:
+                    unit = "h";
+                    break;
+            }
         }
-        Debug.LogFormat("This is a test for {0}:" + "\n"
-        + "Samplerate is : " + "<color=green>" + sampleRate.ToString() + "</color>", name);
+        Debug.LogFormat("<color=green>*Test started*</color>" + "\n"
+        + "This is a test for {0}. Samplerate is : " + "<color=purple>" + sampleRate.ToString() + "</color>", name);
         Debug.LogFormat("Average {0}: " + "<color=green>" + averageValue.ToString("F" + floatPrecision) + "</color>" + "{1}" + "\n" 
         + "Median {0}: " + "<color=green>" + medianValue.ToString("F"+floatPrecision) + "</color>" + "{1}", name, unit);
         Debug.LogFormat("Maximum {0}: " + "<color=green>" + maxValue.ToString("F" + floatPrecision) + "</color>" + "{1}" + "\n"
@@ -52,7 +73,7 @@ public static class DataAnalyzer
         + "<color=red>*Test concluded*</color>", name, unit);
     }
 
-    public static void AnalyzeAndShowData(List<float> values, valueRepresentation v, numberForm form, int floatPrecision)
+    public static void AnalyzeAndShowData(List<float> values, valueRepresentation v, numberForm form, int floatPrecision, unitOfTime unitOfTime = unitOfTime.None)
     {
         // Create helpful statistics here
         sampleRate = values.Count;
@@ -62,7 +83,7 @@ public static class DataAnalyzer
         minValue = Mathf.Min(values.ToArray());
         maxValue = Mathf.Max(values.ToArray());
 
-        LogData(v, form, floatPrecision);
+        LogData(v, form, floatPrecision, unitOfTime);
     }
 
     private static float CalculateStandardDeviationValue(List<float> values)

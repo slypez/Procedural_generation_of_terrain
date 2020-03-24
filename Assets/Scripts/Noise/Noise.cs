@@ -34,10 +34,14 @@ public static class Noise
         switch (settings.noiseAlgorithm)
         {
             case noiseAlgorithm.PERLIN:
+                DataAnalyzer.stopwatch.Start();
                 noiseMap = Perlin.GeneratePerlinNoiseMap(mapWidth, mapHeight, settings, frequency, amplitude, octaveOffsets, minLocalNoiseHeight, maxLocalNoiseHeight, maxPossibleHeight);
+                DataAnalyzer.stopwatch.Stop();
                 break;
             case noiseAlgorithm.DIAMOND:
+                DataAnalyzer.stopwatch.Start();
                 noiseMap = DiamondSquare.GenerateDiamondNoiseMap(65, 65, settings, randomNr);
+                DataAnalyzer.stopwatch.Stop();
                 break;
         }
 

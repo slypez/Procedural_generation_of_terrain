@@ -26,18 +26,22 @@ public class MapPreview : MonoBehaviour
     [SerializeField] private UnityEngine.UI.RawImage noiseTexturePreview;
     [SerializeField] private UnityEngine.UI.RawImage colorTexturePreview;
     [SerializeField] private UnityEngine.UI.RawImage falloffTexturePreview;
+    [Header("Testing")]
+    public int sampleRate;
+    public int floatingPointPrecisionPreview;
     [Header("Flood-fill")]
     public bool debugTraversability;
     public bool debugNonTraversability;
     public bool includeJumpTraversability;
-    public int floatingPointPrecisionPreview;
-    public int floodFillSampleRate;
     public float floodFillHeightThresholdValue;
     public float floodFillJumpHeightThresholdValue;
-    [HideInInspector] public List<float> floodFillValues = new List<float>();
+    [HideInInspector] public List<float> floodFillValues = new List<float>(); // Look in here if values seem 'off'
     public Material debugMaterialWalking;
     public Material debugMaterialJumping;
     public Material debugMaterialNotReachable;
+    [Header("Execution time")]
+    public DataAnalyzer.unitOfTime unitOfTime;
+    [HideInInspector] public List<float> executionTimeValues = new List<float>(); // Look in here if values seem 'off'
     [Header("Map")]
     public int mapIndexSelector;
     [Range(0, MeshSettings.numSupportedLODs - 1)] [SerializeField] private int editorPreviewLOD; // LOD: 1, 2, 4, 8 . . .
