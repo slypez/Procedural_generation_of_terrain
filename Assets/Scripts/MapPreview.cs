@@ -30,9 +30,11 @@ public class MapPreview : MonoBehaviour
     public bool debugTraversability;
     public bool debugNonTraversability;
     public bool includeJumpTraversability;
+    public int floatingPointPrecisionPreview;
     public int floodFillSampleRate;
     public float floodFillHeightThresholdValue;
     public float floodFillJumpHeightThresholdValue;
+    [HideInInspector] public List<float> floodFillValues = new List<float>();
     public Material debugMaterialWalking;
     public Material debugMaterialJumping;
     public Material debugMaterialNotReachable;
