@@ -12,30 +12,12 @@ public static class Noise
         float[,] noiseMap = new float[mapWidth, mapHeight];
         System.Random randomNr = new System.Random(settings.seed);
         //Random.InitState(settings.seed); // Fix so that this is works later
-        Vector2[] octaveOffsets = new Vector2[settings.perlinSettings.octaves];
-        float maxPossibleHeight = 0;
-        float amplitude = 1;
-        float frequency = 1;
-
-        for (int i = 0; i < settings.perlinSettings.octaves; i++)
-        {
-            float offsetX = randomNr.Next(-100000, 100000) + settings.perlinSettings.offset.x + sampleCenter.x;
-            float offsetY = randomNr.Next(-100000, 100000) - settings.perlinSettings.offset.y - sampleCenter.y;
-
-            octaveOffsets[i] = new Vector2(offsetX, offsetY);
-
-            maxPossibleHeight += amplitude;
-            amplitude *= settings.perlinSettings.persistance;
-        }
-
-        float maxLocalNoiseHeight = float.MinValue;
-        float minLocalNoiseHeight = float.MaxValue;
 
         switch (settings.noiseAlgorithm)
         {
             case noiseAlgorithm.PERLIN:
                 DataAnalyzer.stopwatch.Start();
-                noiseMap = Perlin.GeneratePerlinNoiseMap(mapWidth, mapHeight, settings, frequency, amplitude, octaveOffsets, minLocalNoiseHeight, maxLocalNoiseHeight, maxPossibleHeight);
+                noiseMap = Perlin.GeneratePerlinNoiseMap(mapWidth, mapHeight, settings, randomNr, sampleCenter);
                 DataAnalyzer.stopwatch.Stop();
                 break;
             case noiseAlgorithm.DIAMOND:
@@ -46,60 +28,6 @@ public static class Noise
         }
 
         return noiseMap;
-    }
-
-    private static void PerlinNoise(int mapWidth, int mapHeight, NoiseSettings settings, float frequency, float amplitude, Vector2[] octaveOffsets, float minLocalNoiseHeight, float maxLocalNoiseHeight, float maxPossibleHeight, float[,] noiseMap)
-    {
-        float halfWidth = mapWidth / 2f;
-        float halfHeight = mapHeight / 2f;
-
-        for (int y = 0; y < mapHeight; y++)
-        {
-            for (int x = 0; x < mapWidth; x++)
-            {
-                amplitude = 1;
-                frequency = 1;
-                float noiseHeight = 0;
-                for (int i = 0; i < settings.perlinSettings.octaves; i++)
-                {
-                    float xCoord = (x - halfWidth + octaveOffsets[i].x) / settings.scale * frequency;
-                    float yCoord = (y - halfHeight + octaveOffsets[i].y) / settings.scale * frequency;
-
-                    float noiseValue = Mathf.PerlinNoise(xCoord, yCoord) * 2 -1;
-
-                    noiseMap[x, y] = noiseValue;
-                    noiseHeight += noiseValue * amplitude;
-                    amplitude *= settings.perlinSettings.persistance;
-                    frequency *= settings.perlinSettings.lacunarity;
-                }
-                if (noiseHeight > maxLocalNoiseHeight)
-                {
-                    maxLocalNoiseHeight = noiseHeight;
-                }
-                if (noiseHeight < minLocalNoiseHeight)
-                {
-                    minLocalNoiseHeight = noiseHeight;
-                }
-                noiseMap[x, y] = noiseHeight;
-
-                if (settings.perlinSettings.normalizeMode == NormalizeMode.GLOBAL)
-                {
-                    float normalizedHeight = (noiseMap[x, y] + 1) / (maxPossibleHeight);
-                    noiseMap[x, y] = Mathf.Clamp(normalizedHeight, 0, int.MaxValue);
-                }
-            }
-        }
-
-        if (settings.perlinSettings.normalizeMode == NormalizeMode.LOCAL)
-        {
-            for (int y = 0; y < mapHeight; y++)
-            {
-                for (int x = 0; x < mapWidth; x++)
-                {
-                    noiseMap[x, y] = Mathf.InverseLerp(minLocalNoiseHeight, maxLocalNoiseHeight, noiseMap[x, y]); // Normalizing of height
-                }
-            }
-        }
     }
 }
 

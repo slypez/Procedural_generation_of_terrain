@@ -5,20 +5,30 @@ using UnityEngine;
 public static class Perlin
 {
 
-    public static float[,] GeneratePerlinNoiseMap(int mapWidth, int mapHeight, NoiseSettings settings, float frequency, float amplitude, Vector2[] octaveOffsets, float minLocalNoiseHeight, float maxLocalNoiseHeight, float maxPossibleHeight)
+    public static float[,] GeneratePerlinNoiseMap(int mapWidth, int mapHeight, NoiseSettings settings, System.Random randomNr, Vector2 sampleCenter)
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
+        Vector2[] octaveOffsets = new Vector2[settings.perlinSettings.octaves];
+        float maxPossibleHeight = 0;
+        float amplitude = 1;
+        float frequency = 1;
 
-        for (int y = 0; y < mapHeight; y++)
-        {
-            for (int x = 0; x < mapHeight; x++)
-            {
-                noiseMap[x, y] = 0;
-            }
-        }
+        float maxLocalNoiseHeight = float.MinValue;
+        float minLocalNoiseHeight = float.MaxValue;
 
         float halfWidth = mapWidth / 2f;
         float halfHeight = mapHeight / 2f;
+
+        for (int i = 0; i < settings.perlinSettings.octaves; i++)
+        {
+            float offsetX = randomNr.Next(-100000, 100000) + settings.perlinSettings.offset.x + sampleCenter.x;
+            float offsetY = randomNr.Next(-100000, 100000) - settings.perlinSettings.offset.y - sampleCenter.y;
+
+            octaveOffsets[i] = new Vector2(offsetX, offsetY);
+
+            maxPossibleHeight += amplitude;
+            amplitude *= settings.perlinSettings.persistance;
+        }
 
         for (int y = 0; y < mapHeight; y++)
         {
@@ -33,8 +43,6 @@ public static class Perlin
                     float yCoord = (y - halfHeight + octaveOffsets[i].y) / settings.scale * frequency;
 
                     float noiseValue = Mathf.PerlinNoise(xCoord, yCoord) * 2 - 1;
-
-                    noiseMap[x, y] = noiseValue;
                     noiseHeight += noiseValue * amplitude;
                     amplitude *= settings.perlinSettings.persistance;
                     frequency *= settings.perlinSettings.lacunarity;
