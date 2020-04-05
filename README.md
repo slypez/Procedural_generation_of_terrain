@@ -14,9 +14,9 @@ It can also measure the traversability for a potential object to move on the ter
 
 ***
 
-<img width="281" height="158" src="images/terrain/Mountains_1.png"> | <img width="281" height="158" src="images/terrain/Mountains_2.png">
+<img width="281" height="158" src="pictures/Mountains_1.png"> | <img width="281" height="158" src="pictures/Mountains_2.png">
 
-<img width="281" height="158" src="images/terrain/Mountains_3.png"> | <img width="281" height="158" src="images/terrain/Mountains_4.png">
+<img width="281" height="158" src="pictures/terrain/Mountains_3.png"> | <img width="281" height="158" src="pictures/Mountains_4.png">
 
 ***
 
