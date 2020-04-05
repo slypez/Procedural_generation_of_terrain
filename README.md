@@ -8,26 +8,9 @@ It can also measure the traversability for a potential object to move on the ter
 
 ## Terrain
 
-****
+<img width="281" height="158" src="images/terrain/Mountains_1.png"> | <img width="281" height="158" src="images/terrain/Mountains_2.png">
 
-![Illustration_1](images/terrain/Mountains_1.png)
-
-Figure 1: Hell/Mordor
-
-![Illustration_2](images/terrain/Mountains_2.png)
-
-Figure 2: Mountains
-
-****
-
-![Illustration_3](images/terrain/Mountains_3.png)
-
-Figure 3: Glacier
-
-![Illustration_4](images/terrain/Mountains_4.png)
-
-Figure 4: Sand dunes
-***
+<img width="281" height="158" src="images/terrain/Mountains_3.png"> | <img width="281" height="158" src="images/terrain/Mountains_4.png">
 
 ## Traversity & tests
 
