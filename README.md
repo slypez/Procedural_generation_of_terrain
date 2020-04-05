@@ -19,10 +19,6 @@ It can also measure the traversability for a potential object to move on the ter
 
 ## Traversity & tests
 
-<p align="left">
 <img width="281" height="158" src="pictures/Traversability_1.png"> | <img width="281" height="158" src="pictures/Traversability_2.png">
-</p>
 
-<p align="center">
-  <img width="200" height="100" src="pictures/Test_1.png">
-</p>
+<img width="570" height="316" src="pictures/Test_1.png">
