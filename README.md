@@ -9,10 +9,7 @@ It can also measure the traversability for a potential object to move on the ter
 ***
 
 # Results
-
 ## Terrain
-
-***
 
 <img width="281" height="158" src="pictures/Mountains_1.png"> | <img width="281" height="158" src="pictures/Mountains_2.png">
 
@@ -22,6 +19,6 @@ It can also measure the traversability for a potential object to move on the ter
 
 ## Traversity & tests
 
-![Illustration_1](terrain/Mountains_1.png)
+<img width="281" height="158" src="pictures/Traversability_1.png"> | <img width="281" height="158" src="pictures/Traversability_2.png">
 
-Figure 1: Hell/Mordor
+<img width="562" height="316" src="pictures/Test_1.png">
