@@ -6,16 +6,20 @@ using UnityEngine;
 public class MeshSettings : UpdatableData
 {
     public const int numSupportedLODs = 5;
-    public const int numSupportedChunkSizes = 9;
+    public const int numSupportedChunkSizesPerlinNoise = 8;
+    public const int numSupportedChunkSizesDiamonsSquare = 3;
     public const int numSupportedFlatshadedChunkSizes = 3;
-    public static readonly int[] supportedChunkSizesPerlin = { 48, 72, 96, 120, 144, 168, 192, 216, 240 };
-    public static readonly int[] supportedChunkSizesDiamondSquare = { 65, 129 };
+    //Dont go over mesh max-verts (256x256 verts)
+    public static readonly int[] supportedChunkSizes = { 28, 60, 124, 144, 168, 192, 216, 240 }; //  28, 60, 124 works fine with DS: (2^n) - 1 - 5 )
+    // Vertex-counten i praktiken utan multiple chunks blir (x + 3), ex. 28 + 3 = 31 x 31
 
     [Header("Parameters")]
+    public bool useDiamondSquareCompatibleSizes; // Lite knackigt med en extra bool för DS, ja vet.
     public bool useFlatShading;
     public float meshScale = 1f;
 
-    [Range(0, numSupportedChunkSizes - 1)] public int chunkSizeIndex;
+    [Range(0, numSupportedChunkSizesPerlinNoise - 1)] public int chunkSizeIndexPerlinNoise;
+    [Range(0, numSupportedChunkSizesDiamonsSquare - 1)] public int chunkSizeIndexDiamondSquare;
     [Range(0, numSupportedFlatshadedChunkSizes - 1)] public int flatshadedChunkSizeIndex;
 
     //Num of vertices per row of mesh rendered at LOD = 0. Includes the 2 extra verts that are excluded from final mesh, but used for calculating normals
@@ -23,7 +27,7 @@ public class MeshSettings : UpdatableData
     {
         get
         {
-            return supportedChunkSizesPerlin[(useFlatShading) ? flatshadedChunkSizeIndex : chunkSizeIndex] + 5;
+            return supportedChunkSizes[(useFlatShading) ? flatshadedChunkSizeIndex : (useDiamondSquareCompatibleSizes) ? chunkSizeIndexDiamondSquare : chunkSizeIndexPerlinNoise] + 5;
         }
     }
 

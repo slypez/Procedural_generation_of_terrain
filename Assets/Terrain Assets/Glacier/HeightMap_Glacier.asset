@@ -67,7 +67,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   noiseSettings:
-    noiseAlgorithm: 0
+    noiseAlgorithm: 1
     seed: 11
     scale: 50
     perlinSettings:

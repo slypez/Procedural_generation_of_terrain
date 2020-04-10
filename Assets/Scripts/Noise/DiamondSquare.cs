@@ -17,15 +17,18 @@ public static class DiamondSquare
 			}
 		}
 
-		//Random.InitState(settings.seed);
+		int h = (int)settings.diamondSquareSettings.roughness;
+        //noiseMap[0, 0] = rng.Next(-h, h);
+        //noiseMap[mapHeight - 1, 0] = rng.Next(-h, h);
+        //noiseMap[0, mapHeight - 1] = rng.Next(-h, h);
+        //noiseMap[mapHeight - 1, mapHeight - 1] = rng.Next(-h, h);
 
-		int h = settings.diamondSquareSettings.roughness;
-		noiseMap[0, 0] = rng.Next(-h, h);
-		noiseMap[mapHeight - 1, 0] = rng.Next(-h, h);
-		noiseMap[0, mapHeight - 1] = rng.Next(-h, h);
-		noiseMap[mapHeight - 1, mapHeight - 1] = rng.Next(-h, h);
+        noiseMap[0, 0] = rng.Next();
+        noiseMap[mapHeight - 1, 0] = rng.Next();
+        noiseMap[0, mapHeight - 1] = rng.Next();
+        noiseMap[mapHeight - 1, mapHeight - 1] = rng.Next();
 
-		float valMin = float.MaxValue;
+        float valMin = float.MaxValue;
 		float valMax = float.MinValue;
 
 		for (int sideLength = mapHeight - 1; sideLength >= 2; sideLength /= 2)

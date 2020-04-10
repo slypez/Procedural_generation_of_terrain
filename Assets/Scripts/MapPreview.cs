@@ -23,9 +23,6 @@ public class MapPreview : MonoBehaviour
     public MeshFilter previewMeshFilter;
     [SerializeField] private Renderer previewTextureRenderer;
     [SerializeField] private MeshRenderer previewMeshRenderer;
-    [SerializeField] private UnityEngine.UI.RawImage noiseTexturePreview;
-    [SerializeField] private UnityEngine.UI.RawImage colorTexturePreview;
-    [SerializeField] private UnityEngine.UI.RawImage falloffTexturePreview;
     [Header("Testing")]
     public int sampleRate;
     public int floatingPointPrecisionPreview;
@@ -51,6 +48,7 @@ public class MapPreview : MonoBehaviour
     {
         maps[mapIndexSelector].textureData.ApplyToMaterial(terrainMaterial);
         maps[mapIndexSelector].textureData.UpdateMeshHeights(terrainMaterial, maps[mapIndexSelector].heightMapSettings.minHeight, maps[mapIndexSelector].heightMapSettings.maxHeight);
+
         HeightMap heightMap = HeightMapGenerator.GenerateHeightMap(maps[mapIndexSelector].meshSettings.numVertsPerRow, maps[mapIndexSelector].meshSettings.numVertsPerRow, maps[mapIndexSelector].heightMapSettings, Vector2.zero);
         RenderSettings.skybox = maps[mapIndexSelector].skyBox;
 
@@ -66,7 +64,7 @@ public class MapPreview : MonoBehaviour
         {
             if (maps[mapIndexSelector].heightMapSettings.useFalloffMap)
             {
-                falloffMap = TextureGenerator.TextureFromHeightMap(new HeightMap(FalloffGenerator.GenerateFalloffMap(maps[mapIndexSelector].meshSettings.numVertsPerRow), 0, 1));
+                //falloffMap = TextureGenerator.TextureFromHeightMap(new HeightMap(FalloffGenerator.GenerateFalloffMap(maps[mapIndexSelector].meshSettings.numVertsPerRow), 0, 1));
             }
 
             noiseMap = TextureGenerator.TextureFromHeightMap(heightMap);
@@ -74,45 +72,11 @@ public class MapPreview : MonoBehaviour
         }
         else if (drawMode == DrawMode.FalloffMap)
         {
-            falloffMap = TextureGenerator.TextureFromHeightMap(new HeightMap(FalloffGenerator.GenerateFalloffMap(maps[mapIndexSelector].meshSettings.numVertsPerRow), 0, 1));
+            //falloffMap = TextureGenerator.TextureFromHeightMap(new HeightMap(FalloffGenerator.GenerateFalloffMap(maps[mapIndexSelector].meshSettings.numVertsPerRow), 0, 1));
             DrawTexture(falloffMap);
         }
-
-        //UpdatePreviewTextures(noiseMap, null, falloffMap);
+        //Update GUI-images here
     }
-
-    //private void UpdatePreviewTextures(Texture2D noiseMap = null, Texture2D colorMap = null, Texture2D falloffMap = null)
-    //{
-    //    if (noiseMap != null)
-    //    {
-    //        noiseTexturePreview.texture = noiseMap;
-    //        noiseTexturePreview.gameObject.SetActive(true);
-    //    }
-    //    else
-    //    {
-    //        noiseTexturePreview.gameObject.SetActive(false);
-    //    }
-
-    //    if (colorMap != null)
-    //    {
-    //        colorTexturePreview.texture = colorMap;
-    //        colorTexturePreview.gameObject.SetActive(true);
-    //    }
-    //    else
-    //    {
-    //        colorTexturePreview.gameObject.SetActive(false);
-    //    }
-
-    //    if (falloffMap != null)
-    //    {
-    //        falloffTexturePreview.texture = falloffMap;
-    //        falloffTexturePreview.gameObject.SetActive(true);
-    //    }
-    //    else
-    //    {
-    //        falloffTexturePreview.gameObject.SetActive(false);
-    //    }
-    //}
 
     public void DrawTexture(Texture2D texture)
     {

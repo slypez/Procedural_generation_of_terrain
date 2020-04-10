@@ -28,11 +28,11 @@ public static class FloodFill
         }
     }
 
-    public static float GenerateFloodFillData(float heightThresholdValue, MeshFilter meshFilter, Material debugMaterialWalking, Material debugMaterialJumping, Material debugMaterialNotReachable, bool checkForJumpTraversity, float jumpHeightThresholdValue, bool debugTraversability, bool debugNonTraversability)
+    public static float GenerateFloodFillData(float heightThresholdValue, MeshFilter meshFilter, Transform parent,  Material debugMaterialWalking, Material debugMaterialJumping, Material debugMaterialNotReachable, bool checkForJumpTraversity, float jumpHeightThresholdValue, bool debugTraversability, bool debugNonTraversability)
     {
         Vector3[] verts = meshFilter.sharedMesh.vertices;
         Vector3 cNode;
-        Transform debugContainer = meshFilter.transform.GetChild(0);
+        
 
         //Initialize
         int width = (int)meshFilter.sharedMesh.bounds.size.x;
@@ -42,6 +42,8 @@ public static class FloodFill
         l_Jump = new List<Vector3>();
 
         //Start with anything and be sure to bruteforce through all to get the real traversability
+        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+        sw.Start();
         foreach (Vector3 vertex in verts)
         {
             int index = Array.IndexOf(verts, vertex);
@@ -75,7 +77,8 @@ public static class FloodFill
                 }
             }
         }
-        
+        sw.Stop();
+        Debug.Log(sw.ElapsedMilliseconds);
 
         if (checkForJumpTraversity)
         {
@@ -83,22 +86,22 @@ public static class FloodFill
         }
 
         float averageTraversal = ((float)l.Count + (float)l_Jump.Count) / (float)verts.Length;
-        CheckIfDestroyOldDebugArea(debugContainer);
+        CheckIfDestroyOldDebugArea(parent);
 
         if (debugTraversability)
         {
-            DebugFloodFillArea(debugContainer, debugMaterialWalking, l);
+            DebugFloodFillArea(parent, debugMaterialWalking, l);
 
             if (checkForJumpTraversity)
             {
-                DebugFloodFillArea(debugContainer, debugMaterialJumping, l_Jump);
+                DebugFloodFillArea(parent, debugMaterialJumping, l_Jump);
             }
             if (debugNonTraversability)
             {
                 List<Vector3> nonReachableVerts = verts.ToList();
                 nonReachableVerts.RemoveAll(vertex => l.Contains(vertex));
                 nonReachableVerts.RemoveAll(vertex => l_Jump.Contains(vertex));
-                DebugFloodFillArea(debugContainer, debugMaterialNotReachable, nonReachableVerts);
+                DebugFloodFillArea(parent, debugMaterialNotReachable, nonReachableVerts);
             }
         }
 

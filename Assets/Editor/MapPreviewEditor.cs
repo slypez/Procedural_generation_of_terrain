@@ -24,7 +24,7 @@ public class MapPreviewEditor : Editor
 
         if (GUILayout.Button("Generate flood-fill stats"))
         {
-            if ((mapPreview.sampleRate <=0 || mapPreview.sampleRate > 1) && (mapPreview.debugTraversability || mapPreview.debugNonTraversability))
+            if ((mapPreview.sampleRate <= 0 || mapPreview.sampleRate > 1) && (mapPreview.debugTraversability || mapPreview.debugNonTraversability))
             {
                 Debug.LogError("You can only debug one mesh at a time. Change samples to 1 and it should work. Or turn of any debugging");
             }
@@ -32,17 +32,18 @@ public class MapPreviewEditor : Editor
             {
                 mapPreview.floodFillValues.Clear();
                 int saveSeed = mapPreview.maps[mapPreview.mapIndexSelector].heightMapSettings.noiseSettings.seed;
+                Transform debugContainer = mapPreview.previewMeshFilter.transform.GetChild(0);
 
                 for (int i = 0; i < mapPreview.sampleRate; i++)
                 {
-                    mapPreview.floodFillValues.Add(FloodFill.GenerateFloodFillData(mapPreview.floodFillHeightThresholdValue, mapPreview.previewMeshFilter, mapPreview.debugMaterialWalking, mapPreview.debugMaterialJumping, mapPreview.debugMaterialNotReachable, mapPreview.includeJumpTraversability, mapPreview.floodFillJumpHeightThresholdValue, mapPreview.debugTraversability, mapPreview.debugNonTraversability));
+                    mapPreview.floodFillValues.Add(FloodFill.GenerateFloodFillData(mapPreview.floodFillHeightThresholdValue, mapPreview.previewMeshFilter, debugContainer, mapPreview.debugMaterialWalking, mapPreview.debugMaterialJumping, mapPreview.debugMaterialNotReachable, mapPreview.includeJumpTraversability, mapPreview.floodFillJumpHeightThresholdValue, mapPreview.debugTraversability, mapPreview.debugNonTraversability));
                     mapPreview.maps[mapPreview.mapIndexSelector].heightMapSettings.noiseSettings.seed = Random.Range(0, int.MaxValue);
                     mapPreview.DrawMapInEditor();
                 }
                 mapPreview.maps[mapPreview.mapIndexSelector].heightMapSettings.noiseSettings.seed = saveSeed;
                 mapPreview.DrawMapInEditor();
                 DataAnalyzer.AnalyzeAndShowData(mapPreview.floodFillValues, DataAnalyzer.valueRepresentation.Traversability, DataAnalyzer.numberForm.Percent, mapPreview.floatingPointPrecisionPreview);
-            }   
+            }
         }
         if (GUILayout.Button("Clear flood-fill debug"))
         {

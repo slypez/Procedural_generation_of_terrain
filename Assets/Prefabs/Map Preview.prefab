@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6284171100033045657}
   - component: {fileID: 6284171100033045660}
   - component: {fileID: 6284171100033045663}
-  - component: {fileID: 6284171100033045662}
   m_Layer: 0
   m_Name: Preview_Mesh
   m_TagString: Untagged
@@ -81,18 +80,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &6284171100033045662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6284171100033045656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aa59c69764b3944497ac105c5232ce0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6284171101077976180
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,7 +91,6 @@ GameObject:
   - component: {fileID: 6284171101077976181}
   - component: {fileID: 6284171101077976184}
   - component: {fileID: 6284171101077976187}
-  - component: {fileID: 6284171101077976186}
   m_Layer: 0
   m_Name: Preview_Texture
   m_TagString: Untagged
@@ -173,18 +159,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &6284171101077976186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6284171101077976180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aa59c69764b3944497ac105c5232ce0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6284171101426533151
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,9 +210,6 @@ MonoBehaviour:
   previewMeshFilter: {fileID: 6284171100033045660}
   previewTextureRenderer: {fileID: 6284171101077976187}
   previewMeshRenderer: {fileID: 6284171100033045663}
-  noiseTexturePreview: {fileID: 0}
-  colorTexturePreview: {fileID: 0}
-  falloffTexturePreview: {fileID: 0}
   sampleRate: 5
   floatingPointPrecisionPreview: 3
   debugTraversability: 1

@@ -31,34 +31,6 @@ public static class HeightMapGenerator
         }
         return new HeightMap(values, minValue, maxValue);
     }
-
-
-    //private MapData GenerateMapData(Vector2 center)
-    //{
-    //    float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, noiseData.seed, noiseData.noiseScale, noiseData.octaves, noiseData.persistance, noiseData.lacunarity, center + noiseData.offset, noiseData.normalizeMode, NoiseAlgorithm);
-
-    //    if (terrainData.useFalloffMap)
-    //    {
-
-    //        if (falloffMap == null)
-    //        {
-    //            falloffMap = FalloffGenerator.GenerateFalloffMap(mapChunkSize + 2);
-    //        }
-    //        for (int y = 0; y < mapChunkSize + 2; y++)
-    //        {
-    //            for (int x = 0; x < mapChunkSize + 2; x++)
-    //            {
-    //                if (terrainData.useFalloffMap)
-    //                {
-    //                    noiseMap[x, y] = Mathf.Clamp01(noiseMap[x, y] - falloffMap[x, y]);
-    //                }
-
-    //            }
-    //        }
-    //    }
-
-    //    return new MapData(noiseMap);
-    //}
 }
 
 public struct HeightMap

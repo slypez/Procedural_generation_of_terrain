@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Mesh_Glacier
   m_EditorClassIdentifier: 
   autoUpdate: 1
+  useDiamondSquareCompatibleSizes: 1
   useFlatShading: 0
   meshScale: 1
-  chunkSizeIndex: 0
+  chunkSizeIndexPerlinNoise: 0
+  chunkSizeIndexDiamondSquare: 1
   flatshadedChunkSizeIndex: 0

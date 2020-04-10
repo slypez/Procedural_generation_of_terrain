@@ -11,18 +11,17 @@ public static class Noise
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
         System.Random randomNr = new System.Random(settings.seed);
-        //Random.InitState(settings.seed); // Fix so that this is works later
 
         switch (settings.noiseAlgorithm)
         {
             case noiseAlgorithm.PERLIN:
-                DataAnalyzer.stopwatch.Start();
+                DataAnalyzer.stopwatch.Restart();
                 noiseMap = Perlin.GeneratePerlinNoiseMap(mapWidth, mapHeight, settings, randomNr, sampleCenter);
                 DataAnalyzer.stopwatch.Stop();
                 break;
             case noiseAlgorithm.DIAMOND:
-                DataAnalyzer.stopwatch.Start();
-                noiseMap = DiamondSquare.GenerateDiamondNoiseMap(65, 65, settings, randomNr);
+                DataAnalyzer.stopwatch.Restart();
+                noiseMap = DiamondSquare.GenerateDiamondNoiseMap(mapWidth, mapHeight, settings, randomNr);
                 DataAnalyzer.stopwatch.Stop();
                 break;
         }
@@ -53,7 +52,7 @@ public class NoiseSettings
     [System.Serializable]
     public class DiamondSquareSettings
     {
-        public int roughness;
+        public float roughness;
     }
 
     public void ValidateValues()

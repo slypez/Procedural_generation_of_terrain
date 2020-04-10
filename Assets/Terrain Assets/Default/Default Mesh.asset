@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Default Mesh
   m_EditorClassIdentifier: 
   autoUpdate: 1
+  useDiamondSquareCompatibleSizes: 1
   useFlatShading: 0
   meshScale: 1
-  chunkSizeIndex: 0
+  chunkSizeIndexPerlinNoise: 0
+  chunkSizeIndexDiamondSquare: 0
   flatshadedChunkSizeIndex: 0
