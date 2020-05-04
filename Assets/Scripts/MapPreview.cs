@@ -24,7 +24,10 @@ public class MapPreview : MonoBehaviour
     [SerializeField] private Renderer previewTextureRenderer;
     [SerializeField] private MeshRenderer previewMeshRenderer;
     [Header("Testing")]
-    public int sampleRate;
+    public bool WriteValuesToTextFile;
+    public DataAnalyzer.LogContent logContent;
+    [Tooltip("Amount of tests done in a single execution")] public int TestAmount;
+    [Tooltip("Amount of samples taken in a single test")] public int sampleRate;
     public int floatingPointPrecisionPreview;
     [Header("Flood-fill")]
     public bool debugTraversability;
@@ -32,13 +35,13 @@ public class MapPreview : MonoBehaviour
     public bool includeJumpTraversability;
     public float floodFillHeightThresholdValue;
     public float floodFillJumpHeightThresholdValue;
-    [HideInInspector] public List<float> floodFillValues = new List<float>(); // Look in here if values seem 'off'
+    [HideInInspector] public List<float> floodFillValues = new List<float>();
     public Material debugMaterialWalking;
     public Material debugMaterialJumping;
     public Material debugMaterialNotReachable;
     [Header("Execution time")]
     public DataAnalyzer.unitOfTime unitOfTime;
-    [HideInInspector] public List<float> executionTimeValues = new List<float>(); // Look in here if values seem 'off'
+    [HideInInspector] public List<float> executionTimeValues = new List<float>();
     [Header("Map")]
     public int mapIndexSelector;
     [Range(0, MeshSettings.numSupportedLODs - 1)] [SerializeField] private int editorPreviewLOD; // LOD: 1, 2, 4, 8 . . .
@@ -81,7 +84,7 @@ public class MapPreview : MonoBehaviour
     public void DrawTexture(Texture2D texture)
     {
         previewTextureRenderer.sharedMaterial.mainTexture = texture;
-        previewTextureRenderer.transform.localScale = new Vector3(texture.width, 1, texture.height) / 10f;
+        previewTextureRenderer.transform.localScale = new Vector3(texture.width, 1, -texture.height) / 10f;
 
         previewTextureRenderer.gameObject.SetActive(true);
         previewMeshFilter.gameObject.SetActive(false);
@@ -94,8 +97,14 @@ public class MapPreview : MonoBehaviour
             previewMeshFilter.sharedMesh = meshData.CreateMesh();
         }
 
-        previewTextureRenderer.gameObject.SetActive(false);
-        previewMeshFilter.gameObject.SetActive(true);
+        if (previewTextureRenderer != null)
+        {
+            previewTextureRenderer.gameObject.SetActive(false);
+        }
+        if(previewMeshFilter != null)
+        {
+            previewMeshFilter.gameObject.SetActive(true);
+        }
     }
 
     private void OnValuesUpdated()

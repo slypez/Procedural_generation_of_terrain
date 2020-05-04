@@ -42,8 +42,6 @@ public static class FloodFill
         l_Jump = new List<Vector3>();
 
         //Start with anything and be sure to bruteforce through all to get the real traversability
-        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-        sw.Start();
         foreach (Vector3 vertex in verts)
         {
             int index = Array.IndexOf(verts, vertex);
@@ -77,8 +75,6 @@ public static class FloodFill
                 }
             }
         }
-        sw.Stop();
-        Debug.Log(sw.ElapsedMilliseconds);
 
         if (checkForJumpTraversity)
         {

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Mesh_SmalISland
   m_EditorClassIdentifier: 
   autoUpdate: 1
-  useDiamondSquareCompatibleSizes: 1
+  useDiamondSquareCompatibleSizes: 0
   useFlatShading: 0
   meshScale: 1
-  chunkSizeIndexPerlinNoise: 0
+  chunkSizeIndexPerlinNoise: 7
   chunkSizeIndexDiamondSquare: 2
   flatshadedChunkSizeIndex: 0
